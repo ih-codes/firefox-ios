@@ -342,6 +342,8 @@ class CreditCardsTests: BaseTestCase {
         app.buttons["Close"].tap()
         mozWaitForElementToNotExist(app.staticTexts["Securely save this card?"])
         // Go to the Settings --> Payment methods
+        mozWaitForElementToExist(app.staticTexts["Payment success"])
+        app.swipeDown()
         navigator.goto(CreditCardsSettings)
         unlockLoginsView()
         // The credit card is not saved
@@ -362,6 +364,8 @@ class CreditCardsTests: BaseTestCase {
         mozWaitForElementToExist(app.staticTexts["New Card Saved"])
         mozWaitForElementToNotExist(app.staticTexts["Securely save this card?"])
         // Go to the Settings --> Payment methods
+        mozWaitForElementToExist(app.staticTexts["Payment success"])
+        app.swipeDown()
         navigator.goto(CreditCardsSettings)
         unlockLoginsView()
         // The credit card is saved and displayed in the Credit cards section
