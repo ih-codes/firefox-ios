@@ -15,20 +15,35 @@ protocol TabTrayNavigationHandler: AnyObject {
 }
 
 class TabTrayCoordinator: BaseCoordinator,
+                          DevicePickerViewControllerDelegate,
                           ParentCoordinatorDelegate,
                           TabTrayViewControllerDelegate,
                           TabTrayNavigationHandler {
+
+    // MARK: DevicePickerViewControllerDelegate
+    func devicePickerViewControllerDidCancel(_ devicePickerViewController: DevicePickerViewController) {
+        <#code#>
+    }
+    
+    func devicePickerViewController(_ devicePickerViewController: DevicePickerViewController, didPickDevices devices: [Shared.RemoteDevice]) {
+        <#code#>
+    }
+    
     private var tabTrayViewController: TabTrayViewController!
     private let profile: Profile
     private let tabManager: TabManager
+    private let themeManager: ThemeManager
+    private var windowUUID: WindowUUID { return tabManager.windowUUID }
     weak var parentCoordinator: TabTrayCoordinatorDelegate?
 
     init(router: Router,
          tabTraySection: TabTrayPanelType,
          profile: Profile,
+         themeManager: ThemeManager = AppContainer.shared.resolve(),
          tabManager: TabManager) {
         self.profile = profile
         self.tabManager = tabManager
+        self.themeManager = themeManager
         super.init(router: router)
         initializeTabTrayViewController(selectedTab: tabTraySection)
     }
@@ -90,9 +105,56 @@ class TabTrayCoordinator: BaseCoordinator,
     }
 
     func shareTab(url: URL, sourceView: UIView) {
+        var shareItem: ShareItem!
+        if let selectedTab = tabManager.selectedTab, let url = selectedTab.canonicalURL?.displayURL {
+            shareItem = ShareItem(url: url.absoluteString, title: selectedTab.title)
+        } else {
+            shareItem = ShareItem(url: url.absoluteString, title: nil)
+        }
+
+        let themeColors = themeManager.currentTheme(for: windowUUID).colors
+        let colors = SendToDeviceHelper.Colors(defaultBackground: themeColors.layer1,
+                                               textColor: themeColors.textPrimary,
+                                               iconColor: themeColors.iconPrimary)
+
+        let helper = SendToDeviceHelper(
+            shareItem: shareItem,
+            profile: profile,
+            colors: colors,
+            delegate: self)
+        let viewController = helper.initialViewController()
+
+        TelemetryWrapper.recordEvent(category: .action, method: .tap, object: .sendToDevice)
+//        guard !childCoordinators.contains(where: { $0 is ShareExtensionCoordinator }) else { return }
+//        let coordinator = makeShareExtensionCoordinator()
+
+//        coordinator.start(url: url, sourceView: sourceView)
+    }
+
+    func sendToDevice(url: URL, sourceView: UIView) {
         guard !childCoordinators.contains(where: { $0 is ShareExtensionCoordinator }) else { return }
         let coordinator = makeShareExtensionCoordinator()
-        coordinator.start(url: url, sourceView: sourceView)
+
+        var shareItem: ShareItem!
+        if let selectedTab = tabManager.selectedTab, let url = selectedTab.canonicalURL?.displayURL {
+            shareItem = ShareItem(url: url.absoluteString, title: selectedTab.title)
+        } else {
+            shareItem = ShareItem(url: url.absoluteString, title: nil)
+        }
+
+        let themeColors = themeManager.currentTheme(for: windowUUID).colors
+        let colors = SendToDeviceHelper.Colors(defaultBackground: themeColors.layer1,
+                                               textColor: themeColors.textPrimary,
+                                               iconColor: themeColors.iconPrimary)
+
+        let helper = SendToDeviceHelper(
+            shareItem: shareItem,
+            profile: profile,
+            colors: colors,
+            delegate: coordinator)
+        let viewController = helper.initialViewController()
+
+        TelemetryWrapper.recordEvent(category: .action, method: .tap, object: .sendToDevice)
     }
 
     private func makeShareExtensionCoordinator() -> ShareExtensionCoordinator {

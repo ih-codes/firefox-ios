@@ -18,7 +18,8 @@ class ShareExtensionHelper: NSObject, FeatureFlaggable {
     private let pocketActionExtension = "com.ideashower.ReadItLaterPro.Action-Extension"
 
     var areShareSheetChangesEnabled: Bool {
-        return featureFlags.isFeatureEnabled(.shareSheetChanges, checking: .buildOnly) && !url.isFileURL
+        return true
+//        return featureFlags.isFeatureEnabled(.shareSheetChanges, checking: .buildOnly) && !url.isFileURL
     }
 
     /// Exclude 'Add to Reading List' which currently uses Safari. If share sheet changes are enabled exclude
