@@ -8,6 +8,8 @@ import Shared
 import Common
 
 class MicrosurveyMiddleware {
+    let microsurveyTelemetry = MicrosurveyTelemetry()
+
     lazy var microsurveyProvider: Middleware<AppState> = { state, action in
         let windowUUID = action.windowUUID
         switch action.actionType {
@@ -23,6 +25,7 @@ class MicrosurveyMiddleware {
     }
 
     private func dismissSurvey(windowUUID: WindowUUID) {
+        microsurveyTelemetry.surveyDismissButtonTapped()
         let newAction = MicrosurveyMiddlewareAction(
             windowUUID: windowUUID,
             actionType: MicrosurveyMiddlewareActionType.dismissSurvey
@@ -32,6 +35,7 @@ class MicrosurveyMiddleware {
     }
 
     private func navigateToPrivacyNotice(windowUUID: WindowUUID) {
+        microsurveyTelemetry.privacyNoticeTapped()
         let newAction = MicrosurveyMiddlewareAction(
             windowUUID: windowUUID,
             actionType: MicrosurveyMiddlewareActionType.navigateToPrivacyNotice
@@ -40,7 +44,8 @@ class MicrosurveyMiddleware {
     }
 
     private func sendTelemetryAndClosePrompt(windowUUID: WindowUUID) {
-        // TODO: FXIOS-8990 - Send telemetry via Mobile messaging infrastructure
+        microsurveyTelemetry.confirmationMessageViewed()
+        microsurveyTelemetry.userResponseSubmitted()
         closeMicrosurveyPrompt(windowUUID: windowUUID)
     }
 

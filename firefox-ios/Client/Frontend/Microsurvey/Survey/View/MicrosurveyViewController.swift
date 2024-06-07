@@ -26,6 +26,7 @@ final class MicrosurveyViewController: UIViewController,
     private let windowUUID: WindowUUID
     private let model: MicrosurveyModel
     private var microsurveyState: MicrosurveyState
+    private let microsurveyTelemetry = MicrosurveyTelemetry()
 
     // MARK: UI Elements
     private struct UX {
@@ -302,6 +303,7 @@ final class MicrosurveyViewController: UIViewController,
     }
 
     private func showConfirmationPage() {
+        microsurveyTelemetry.confirmationMessageViewed()
         headerLabel.text = .Microsurvey.Survey.ConfirmationPage.HeaderLabel
         tableView.removeFromSuperview()
         submitButton.removeFromSuperview()

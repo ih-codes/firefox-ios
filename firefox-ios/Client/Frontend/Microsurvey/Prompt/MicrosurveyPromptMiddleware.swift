@@ -9,6 +9,7 @@ import Common
 
 class MicrosurveyPromptMiddleware {
     let microsurveySurfaceManager = MicrosurveySurfaceManager()
+    let microsurveyTelemetry = MicrosurveyTelemetry()
 
     lazy var microsurveyProvider: Middleware<AppState> = { state, action in
         let windowUUID = action.windowUUID
@@ -52,6 +53,7 @@ class MicrosurveyPromptMiddleware {
     }
 
     private func openSurvey(windowUUID: WindowUUID) {
+        microsurveyTelemetry.promptButtonTapped()
         let newAction = MicrosurveyPromptMiddlewareAction(
             windowUUID: windowUUID,
             actionType: MicrosurveyPromptMiddlewareActionType.openSurvey
