@@ -851,7 +851,7 @@ extension HomepageViewController: HomepageViewModelDelegate {
     }
 
     func reloadJumpBackIn() {
-        // Is this needed?
+        // TODO: Confirm with Nish
     }
 }
 
