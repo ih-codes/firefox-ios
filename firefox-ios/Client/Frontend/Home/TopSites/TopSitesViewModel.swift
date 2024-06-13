@@ -220,7 +220,7 @@ extension TopSitesViewModel: TopSitesManagerDelegate {
             self.topSites = self.unfilteredTopSites
             self.numberOfRows = self.topSitesDataAdaptor.numberOfRows
             guard self.isEnabled else { return }
-            self.delegate?.reloadView()
+            self.delegate?.reloadView(for: nil)
         }
     }
 }

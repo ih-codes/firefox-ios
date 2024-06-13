@@ -123,7 +123,7 @@ extension HomepageMessageCardViewModel: MessageCardDelegate {
         ensureMainThread {
             self.message = self.dataAdaptor.getMessageCardData()
             guard self.isEnabled else { return }
-            self.delegate?.reloadView()
+            self.delegate?.reloadView(for: nil)
             self.handleMessageDisplayed()
         }
     }

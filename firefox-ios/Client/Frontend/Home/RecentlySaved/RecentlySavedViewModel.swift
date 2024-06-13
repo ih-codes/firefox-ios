@@ -179,7 +179,7 @@ extension RecentlySavedViewModel: RecentlySavedDelegate {
         ensureMainThread {
             self.recentItems = self.recentlySavedDataAdaptor.getRecentlySavedData()
             guard self.isEnabled else { return }
-            self.delegate?.reloadView()
+            self.delegate?.reloadView(for: nil)
         }
     }
 }

@@ -849,6 +849,10 @@ extension HomepageViewController: HomepageViewModelDelegate {
                             category: .homepage)
         }
     }
+
+    func reloadJumpBackIn() {
+        // Is this needed?
+    }
 }
 
 // MARK: - Notifiable

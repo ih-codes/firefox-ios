@@ -7,10 +7,11 @@ import Shared
 
 protocol HomepageViewModelDelegate: AnyObject {
     func reloadView()
+    func reloadJumpBackIn()
 }
 
 protocol HomepageDataModelDelegate: AnyObject {
-    func reloadView()
+    func reloadView(for section: HomepageSectionType?)
 }
 
 class HomepageViewModel: FeatureFlaggable, InjectedThemeUUIDIdentifiable {
@@ -254,7 +255,16 @@ class HomepageViewModel: FeatureFlaggable, InjectedThemeUUIDIdentifiable {
 
 // MARK: - HomepageDataModelDelegate
 extension HomepageViewModel: HomepageDataModelDelegate {
-    func reloadView() {
-        delegate?.reloadView()
+    func reloadView(for section: HomepageSectionType?) {
+        if section == .jumpBackIn {
+            updateJumpInSection()
+        } else {
+            delegate?.reloadView()
+        }
+    }
+
+    private func updateJumpInSection() {
+        guard jumpBackInViewModel.shouldShow else { return }
+        delegate?.reloadJumpBackIn()
     }
 }

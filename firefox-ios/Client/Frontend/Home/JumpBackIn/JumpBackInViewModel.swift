@@ -457,7 +457,7 @@ extension JumpBackInViewModel: JumpBackInDelegate {
                        category: .homepage)
             guard self.isEnabled else { return }
 
-            self.delegate?.reloadView()
+//            self.delegate?.reloadView(for: .jumpBackIn)
         }
     }
 }
