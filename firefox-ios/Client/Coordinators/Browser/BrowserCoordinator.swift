@@ -682,8 +682,8 @@ class BrowserCoordinator: BaseCoordinator,
         }
 
         let navigationController = DismissableNavigationViewController()
-        navigationController.sheetPresentationController?.detents = [.medium(), .large()]
         navigationController.sheetPresentationController?.prefersGrabberVisible = true
+        setDetentsBasedOnLayout(with: navigationController)
         let coordinator = MicrosurveyCoordinator(
             model: model,
             router: DefaultRouter(
@@ -701,6 +701,14 @@ class BrowserCoordinator: BaseCoordinator,
         }
 
         present(navigationController)
+    }
+
+    private func setDetentsBasedOnLayout(with controller: UIViewController) {
+        if controller.shouldUseiPadSetup() {
+            controller.sheetPresentationController?.detents = [.large()]
+        } else {
+            controller.sheetPresentationController?.detents = [.medium(), .large()]
+        }
     }
 
     private func present(_ viewController: UIViewController,
