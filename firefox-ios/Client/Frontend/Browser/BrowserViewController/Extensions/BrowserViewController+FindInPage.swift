@@ -5,6 +5,8 @@
 import Shared
 
 extension BrowserViewController {
+    // TODO: The find interactions for iOS 16 close themselves, so once the min deployment target is iOS 16,
+    // we may be able to remove the `isVisible` flag and let the system manage dismissal.
     func updateFindInPageVisibility(visible: Bool, tab: Tab? = nil) {
         if #available(iOS 16, *) {
             useApplesFindInteraction(isVisible: visible)
