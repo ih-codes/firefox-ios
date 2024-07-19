@@ -53,7 +53,7 @@ class TopTabsViewController: UIViewController, Themeable, Notifiable {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.bounces = false
-        collectionView.clipsToBounds = true
+        collectionView.clipsToBounds = false // FIXME Is there a good reason for this originally being true?
         collectionView.accessibilityIdentifier = AccessibilityIdentifiers.Browser.TopTabs.collectionView
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
