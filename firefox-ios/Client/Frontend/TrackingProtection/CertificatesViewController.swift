@@ -45,6 +45,7 @@ class CertificatesViewController: UIViewController, Themeable, UITableViewDelega
     let certificatesTableView: UITableView = .build { tableView in
         tableView.allowsSelection = false
         tableView.register(CertificatesCell.self, forCellReuseIdentifier: CertificatesCell.cellIdentifier)
+        tableView.register(CertificatesHeaderView.self, forHeaderFooterViewReuseIdentifier: "CertificatesHeaderView") // FIXME Use a constant
     }
 
     // MARK: - Variables
@@ -126,11 +127,9 @@ class CertificatesViewController: UIViewController, Themeable, UITableViewDelega
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerStackView: UIStackView = .build { stack in
-            stack.axis = .horizontal
-            stack.distribution = .fillEqually
-            stack.spacing = UX.headerStackViewSpacing
-        }
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "CertificatesHeaderView") as! CertificatesHeaderView
+
+        var items: [CertificatesHeaderItem] = []
         for (index, certificate) in viewModel.certificates.enumerated() {
             let certificateValues = viewModel.getCertificateValues(from: "\(certificate.subject)")
             if !certificateValues.isEmpty, let commonName = certificateValues[CertificateKeys.commonName] {
@@ -142,20 +141,12 @@ class CertificatesViewController: UIViewController, Themeable, UITableViewDelega
                     self.viewModel.selectedCertificateIndex = index
                     self.certificatesTableView.reloadData()
                 }
-                headerStackView.addArrangedSubview(item)
+                items.append(item)
             }
         }
 
-        view.addSubview(headerStackView)
-
-        NSLayoutConstraint.activate([
-            headerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor)
-        ])
-
-        headerStackView.backgroundColor = currentTheme().colors.layer5
-        return headerStackView
+        headerView.configure(withItems: items)
+        return headerView
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
