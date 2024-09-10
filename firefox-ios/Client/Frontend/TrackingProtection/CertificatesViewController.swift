@@ -145,7 +145,7 @@ class CertificatesViewController: UIViewController, Themeable, UITableViewDelega
             }
         }
 
-        headerView.configure(withItems: items)
+        headerView.configure(withItems: items, theme: currentTheme())
         return headerView
     }
 
@@ -240,5 +240,6 @@ extension CertificatesViewController {
         view.backgroundColor = theme.colors.layer5
         titleLabel.textColor = theme.colors.textPrimary
         titleLabel.backgroundColor = theme.colors.layer5
+        certificatesTableView.reloadData()
     }
 }

@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import UIKit
+import Common
 
 class CertificatesHeaderView: UITableViewHeaderFooterView {
     let headerStackView: UIStackView = .build { stack in
@@ -31,7 +32,7 @@ class CertificatesHeaderView: UITableViewHeaderFooterView {
         ])
     }
 
-    func configure(withItems items: [CertificatesHeaderItem]) {
+    func configure(withItems items: [CertificatesHeaderItem], theme: Theme) {
         // Reset the view for reuse
         for view in headerStackView.arrangedSubviews {
             view.removeFromSuperview()
@@ -40,5 +41,7 @@ class CertificatesHeaderView: UITableViewHeaderFooterView {
         for item in items {
             headerStackView.addArrangedSubview(item)
         }
+
+        headerStackView.backgroundColor = theme.colors.layer5
     }
 }
