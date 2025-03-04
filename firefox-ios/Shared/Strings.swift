@@ -2545,7 +2545,7 @@ extension String {
                     comment: "On the app icon customization screen where you can select an alternate icon for the app, this is the name of the artsy Firefox for iOS icon of a funny fox lying on top of a globe.")
 
                 public static let OrangeGradient = MZLocalizedString(
-                    key: "Settings.AppIconSelection.AppIconNames.Lazy.OrangeGradient.v136",
+                    key: "Settings.AppIconSelection.AppIconNames.Lazy.OrangeGradient.Title.v136",
                     tableName: "AppIconSelection",
                     value: "Orange Gradient",
                     comment: "On the app icon customization screen where you can select an alternate icon for the app, this is the name of the Firefox icon with an orange gradient background.")
@@ -2569,13 +2569,13 @@ extension String {
                     comment: "On the app icon customization screen where you can select an alternate icon for the app, this is the name of a fox logo.")
 
                 public static let RedGradient = MZLocalizedString(
-                    key: "Settings.AppIconSelection.AppIconNames.Lazy.RedGradient.v136",
+                    key: "Settings.AppIconSelection.AppIconNames.Lazy.RedGradient.Title.v136",
                     tableName: "AppIconSelection",
                     value: "Red Gradient",
                     comment: "On the app icon customization screen where you can select an alternate icon for the app, this is the name of the Firefox icon with a red gradient background.")
 
                 public static let Retro = MZLocalizedString(
-                    key: "Settings.AppIconSelection.AppIconNames.Pixelated.Retro.v136",
+                    key: "Settings.AppIconSelection.AppIconNames.Pixelated.Retro.Title.v136",
                     tableName: "AppIconSelection",
                     value: "Retro",
                     comment: "On the app icon customization screen where you can select an alternate icon for the app, this is the name of a retro version of the regular Firefox for iOS app icon.")
